@@ -94,6 +94,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       method: 'POST',
       body: payload,
       headers,
+    }).then((res) => {
+      if (!res.ok) {
+        window.open(
+          `https://twitter.com/intent/tweet?text=${msg.body}`,
+          't',
+          'width=600,height=300'
+        );
+      }
     });
   }
   return true;
