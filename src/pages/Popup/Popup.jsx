@@ -12,8 +12,9 @@ const Popup = () => {
   useStorage({ key: 'list' }, setList);
   useStorage({ key: 'subs' }, (subs) => {
     setSubs(subs);
-    capture(subs);
+    chrome.storage.sync.get(['iframe'], ({ iframe }) => capture(subs, iframe));
   });
+  const iframe = useStorage({ key: 'iframe', storage: 'sync' });
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((msg) => {
@@ -29,14 +30,18 @@ const Popup = () => {
     chrome.storage.local.set({ subs });
   }, [subs]);
 
-  const capture = (subs) => {
+  const capture = (subs, iframe) => {
     const type = subs ? 'SUBS' : 'CAPTURE';
-    sendMessage({ type });
+    sendMessage({ type, iframe });
   };
 
   return (
-    <ReactHotkeys keyName="shift+c" onKeyUp={() => capture(subs)}>
-      <Button color="primary" variant="contained" onClick={() => capture(subs)}>
+    <ReactHotkeys keyName="shift+c" onKeyUp={() => capture(subs, iframe)}>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={() => capture(subs, iframe)}
+      >
         Capture
       </Button>
       <span style={{ width: 10 }}>&nbsp;&nbsp;</span>

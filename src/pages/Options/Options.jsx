@@ -20,11 +20,14 @@ const useDebounce = (value, delay) => {
 const Options = () => {
   const [open, setOpen] = useState(false);
   const [list, setList] = useState(null);
+  const [iframe, setIframe] = useState(null);
   const debouncedList = useDebounce(list, 500);
+  const debouncedIframe = useDebounce(iframe, 500);
 
   useEffect(() => {
-    chrome.storage.sync.get(['blacklist'], (result) => {
+    chrome.storage.sync.get(['blacklist', 'iframe'], (result) => {
       if (result.blacklist) setList(result.blacklist);
+      if (result.iframe) setIframe(result.iframe);
     });
   }, []);
 
@@ -43,6 +46,17 @@ const Options = () => {
     }
   }, [debouncedList]);
 
+  useEffect(() => {
+    if (iframe !== null) {
+      chrome.storage.sync.get(['iframe'], (result) => {
+        if (result.iframe !== iframe) {
+          chrome.storage.sync.set({ iframe: debouncedIframe });
+          setOpen(true);
+        }
+      });
+    }
+  }, [debouncedIframe]);
+
   return (
     <Paper style={{ padding: '20px', margin: '20px', maxWidth: '800px' }}>
       <Typography variant="h2">Capture Video Element</Typography>
@@ -50,6 +64,13 @@ const Options = () => {
       <TextareaAutosize
         defaultValue={list}
         onChange={(e) => onChange(e.target.value)}
+        rowsMin={15}
+        style={{ width: '95%' }}
+      />
+      <Typography variant="h4">Whitelist for Capture iframe</Typography>
+      <TextareaAutosize
+        defaultValue={iframe}
+        onChange={(e) => setIframe(e.target.value)}
         rowsMin={15}
         style={{ width: '95%' }}
       />

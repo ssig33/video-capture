@@ -6,13 +6,17 @@ const getId = () => {
   );
 };
 
-const subs = () => {
+const subs = ({ iframe }) => {
+  const iframeList = iframe ? iframe.split('\n') : [];
+  const match = !!iframeList.filter((d) => location.href.match(d))[0];
+  console.log(match);
   const video =
     document.querySelector('video') ||
-    Array.from(document.querySelectorAll('iframe')).sort(
-      (a, b) =>
-        b.getBoundingClientRect().width - a.getBoundingClientRect().width
-    )[0];
+    (match &&
+      Array.from(document.querySelectorAll('iframe')).sort(
+        (a, b) =>
+          b.getBoundingClientRect().width - a.getBoundingClientRect().width
+      )[0]);
   if (!video) return null;
 
   const { x, y, width, height } = video.getBoundingClientRect();
@@ -37,7 +41,6 @@ const subs = () => {
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  console.log(msg);
   if (msg.type === 'TWEET') {
     window.open(
       `https://twitter.com/intent/tweet?text=${msg.url}`,
@@ -86,7 +89,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
   }
   if (msg.type === 'SUBS') {
-    subs();
+    subs(msg);
   }
   if (msg.type === 'JUMP') {
     window.open(msg.href);
