@@ -19,7 +19,7 @@ export const gyazo = async ({ image_url, title, url }) => {
   const data = await response.json();
   const res = await fetch(data.get_image_url);
   return {
-    imageUrl: res.url.replace('gyazo.com', 'i.gyazo.com') + '.png',
+    imageUrl: res.url.replace('gyazo.com', 'i.gyazo.com') + '.jpg',
     gyazo: res.url,
   };
 };

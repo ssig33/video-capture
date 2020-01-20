@@ -37,6 +37,7 @@ const subs = () => {
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  console.log(msg);
   if (msg.type === 'TWEET') {
     window.open(
       `https://twitter.com/intent/tweet?text=${msg.url}`,
@@ -53,7 +54,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     canvas
       .getContext('2d')
       .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    const dataUrl = canvas.toDataURL();
+    const dataUrl = canvas.toDataURL('image/jpeg');
     const time = parseInt(video.currentTime);
     const id = getId();
     const title = document.title;

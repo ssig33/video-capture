@@ -18,6 +18,6 @@ export const trim = (dataUrl, x, y, width, height, callback) => {
       width * ratio,
       height * ratio
     );
-    callback(canvas.toDataURL());
+    callback(canvas.toDataURL('image/jpeg'));
   };
 };
