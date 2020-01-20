@@ -6,6 +6,36 @@ const getId = () => {
   );
 };
 
+const subs = () => {
+  const video =
+    document.querySelector('video') ||
+    Array.from(document.querySelectorAll('iframe')).sort(
+      (a, b) =>
+        b.getBoundingClientRect().width - a.getBoundingClientRect().width
+    )[0];
+  if (!video) return null;
+
+  const { x, y, width, height } = video.getBoundingClientRect();
+  const time = parseInt(video.currentTime || 0);
+  const id = getId();
+  const title = location.href.startsWith('https://www.youtube.com')
+    ? document.title.replace(/\(\d+?\) /, '')
+    : document.title;
+  const url = location.href;
+
+  chrome.runtime.sendMessage({
+    type: 'rect',
+    x,
+    y,
+    width,
+    height,
+    time,
+    id,
+    title,
+    url,
+  });
+};
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === 'TWEET') {
     window.open(
@@ -16,7 +46,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
   if (msg.type === 'CAPTURE') {
     const video = document.querySelector('video');
-    if (!video) return;
+    if (!video) return null;
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', video.videoWidth);
     canvas.setAttribute('height', video.videoHeight);
@@ -55,26 +85,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
   }
   if (msg.type === 'SUBS') {
-    const video = document.querySelector('video');
-    const { x, y, width, height } = video.getBoundingClientRect();
-    const time = parseInt(video.currentTime);
-    const id = getId();
-    const title = location.href.startsWith('https://www.youtube.com')
-      ? document.title.replace(/\(\d+?\) /, '')
-      : document.title;
-    const url = location.href;
-
-    chrome.runtime.sendMessage({
-      type: 'rect',
-      x,
-      y,
-      width,
-      height,
-      time,
-      id,
-      title,
-      url,
-    });
+    subs();
   }
   if (msg.type === 'JUMP') {
     window.open(msg.href);
