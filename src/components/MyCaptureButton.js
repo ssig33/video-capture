@@ -1,14 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-  margin: {
+  button: {
     margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
   },
 }));
 
@@ -16,16 +13,14 @@ export const MyCaptureButton = ({ onClick, children }) => {
   const classes = useStyles();
 
   return (
-    <Fab
+    <Button
       variant="contained"
-      size="medium"
       color="primary"
-      aria-label="Capture"
-      className={classes.margin}
+      startIcon={<PhotoCameraIcon />}
+      className={classes.button}
       onClick={onClick}
     >
-      <PhotoCameraIcon fontSize="inherit" className={classes.extendedIcon} />
       {children}
-    </Fab>
+    </Button>
   );
 };
