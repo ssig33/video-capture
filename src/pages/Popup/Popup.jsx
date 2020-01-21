@@ -42,11 +42,11 @@ const Popup = () => {
         variant="contained"
         onClick={() => capture(subs, iframe)}
       >
-        Capture
+        {chrome.i18n.getMessage('button_capture')}
       </Button>
       <span style={{ width: 10 }}>&nbsp;&nbsp;</span>
       <FormControlLabel
-        label="with Subs"
+        label={chrome.i18n.getMessage('checkbox_with_subs')}
         control={<Checkbox checked={subs} onChange={() => setSubs(!subs)} />}
       />
       <List>{list && list.map((l) => <Capture item={l} key={l.id} />)}</List>
