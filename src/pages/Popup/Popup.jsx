@@ -13,6 +13,7 @@ import { Capture } from './Capture';
 
 import { MyTheme } from '../../components/MyTheme';
 import { JA, EN } from '../../components/locale';
+import { MyCaptureButton } from '../../components/MyCaptureButton';
 
 const Popup = () => {
   const [list, setList] = useState([]);
@@ -48,14 +49,10 @@ const Popup = () => {
     <MyTheme>
       <Paper style={{ padding: '15px', borderRadius: 0 }}>
         <ReactHotkeys keyName="shift+c" onKeyUp={() => capture(subs, iframe)}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => capture(subs, iframe)}
-          >
+          <MyCaptureButton onClick={() => capture(subs, iframe)}>
             <JA>キャプ</JA>
             <EN>Capture</EN>
-          </Button>
+          </MyCaptureButton>
           <span style={{ width: 10 }}>&nbsp;&nbsp;</span>
           <FormControlLabel
             label={
