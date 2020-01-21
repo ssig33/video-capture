@@ -3,15 +3,18 @@ import Fab from '@material-ui/core/Fab';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import React from 'react';
 
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
+
 export const MyCaptureButton = ({ onClick, children }) => {
-  const classes = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(1),
-    },
-  }));
+  const classes = useStyles();
+
   return (
     <Fab
       variant="contained"
