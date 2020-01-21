@@ -121,20 +121,6 @@ var options = {
         copyUnmodified: true,
       }
     ),
-    new CopyWebpackPlugin(
-      [
-        {
-          context: 'src',
-          from: '_locales/*/messages.json',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-      {
-        logLevel: 'info',
-        copyUnmodified: true,
-      }
-    ),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'pages', 'Options', 'index.html'),
       filename: 'options.html',

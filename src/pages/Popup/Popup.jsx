@@ -5,6 +5,8 @@ import ReactHotkeys from 'react-hot-keys';
 import { sendMessage, useStorage } from './chrome';
 import { Capture } from './Capture';
 
+import { JA, EN } from '../../components/locale';
+
 const Popup = () => {
   const [list, setList] = useState([]);
   const [subs, setSubs] = useState(false);
@@ -42,11 +44,17 @@ const Popup = () => {
         variant="contained"
         onClick={() => capture(subs, iframe)}
       >
-        {chrome.i18n.getMessage('button_capture')}
+        <JA>キャプ</JA>
+        <EN>Capture</EN>
       </Button>
       <span style={{ width: 10 }}>&nbsp;&nbsp;</span>
       <FormControlLabel
-        label={chrome.i18n.getMessage('checkbox_with_subs')}
+        label={
+          <>
+            <JA>字幕を含む</JA>
+            <EN>with Subs</EN>
+          </>
+        }
         control={<Checkbox checked={subs} onChange={() => setSubs(!subs)} />}
       />
       <List>{list && list.map((l) => <Capture item={l} key={l.id} />)}</List>
