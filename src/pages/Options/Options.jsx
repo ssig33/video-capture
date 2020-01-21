@@ -63,7 +63,7 @@ const Options = () => {
     <Paper style={{ padding: '20px', margin: '20px', maxWidth: '800px' }}>
       <Typography variant="h2">Capture Video Element</Typography>
       <Typography variant="h4">
-        <JA>メタデータを送信しないサイトのリスト</JA>
+        <JA>メタデータを送信しないドメインのリスト</JA>
         <EN>Domain list for sending site metadata</EN>
       </Typography>
       <TextareaAutosize
