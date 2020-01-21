@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Paper, Typography, TextareaAutosize } from '@material-ui/core';
 import { MySnackbar } from '../../components/MySnackbar';
 
+import { JA, EN } from '../../components/locale';
+
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -60,14 +62,20 @@ const Options = () => {
   return (
     <Paper style={{ padding: '20px', margin: '20px', maxWidth: '800px' }}>
       <Typography variant="h2">Capture Video Element</Typography>
-      <Typography variant="h4">Blacklist for Site Information</Typography>
+      <Typography variant="h4">
+        <JA>メタデータを送信しないドメインのリスト</JA>
+        <EN>Domain list for sending site metadata</EN>
+      </Typography>
       <TextareaAutosize
         defaultValue={list}
         onChange={(e) => onChange(e.target.value)}
         rowsMin={15}
         style={{ width: '95%' }}
       />
-      <Typography variant="h4">Whitelist for Capture iframe</Typography>
+      <Typography variant="h4">
+        <JA>iframeのキャプチャを許可するドメインのリスト</JA>
+        <EN>Domain list for allow iframe capture</EN>
+      </Typography>
       <TextareaAutosize
         defaultValue={iframe}
         onChange={(e) => setIframe(e.target.value)}
