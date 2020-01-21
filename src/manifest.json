@@ -1,5 +1,6 @@
 {
   "name": "Capture Video Element",
+  "default_locale": "ja",
   "options_page": "options.html",
   "background": {
     "page": "background.html"
