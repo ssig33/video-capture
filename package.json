@@ -8,7 +8,7 @@
     "url": "https://github.com/ssig33/video-capture.git"
   },
   "scripts": {
-    "pull-ssig33": "git checkout master && git fetch upstream && git merge upstream/master && npm run-script build",
+    "fetch-and-build": "git checkout master && git fetch origin && git merge origin/master && npm run-script build",
     "build": "node utils/build.js",
     "start": "node utils/webserver.js",
     "prettier": "prettier --write '**/*.{js,jsx,css,html}'"
