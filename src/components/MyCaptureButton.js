@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core/Button';
+import { PhotoCameraIcon } from '@material-ui/icons/PhotoCamera';
 
 const useStyles = makeStyles((theme) => ({
   button: {
