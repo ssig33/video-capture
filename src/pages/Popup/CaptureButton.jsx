@@ -1,7 +1,8 @@
-import React from 'react';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core/Button';
-import { PhotoCameraIcon } from '@material-ui/icons/PhotoCamera';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import React from 'react';
+import { EN, JA } from '../../components/locale';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const MyCaptureButton = ({ onClick, children }) => {
+export const CaptureButton = ({ onClick, children }) => {
   const classes = useStyles();
 
   return (
@@ -20,7 +21,8 @@ export const MyCaptureButton = ({ onClick, children }) => {
       className={classes.button}
       onClick={onClick}
     >
-      {children}
+      <JA>キャプ</JA>
+      <EN>Capture</EN>
     </Button>
   );
 };

@@ -1,19 +1,11 @@
+import { Checkbox, FormControlLabel, List, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import {
-  Paper,
-  Button,
-  List,
-  Checkbox,
-  FormControlLabel,
-} from '@material-ui/core';
-
 import ReactHotkeys from 'react-hot-keys';
-import { sendMessage, useStorage } from './chrome';
-import { Capture } from './Capture';
-
+import { EN, JA } from '../../components/locale';
+import { CaptureButton } from './CaptureButton';
 import { MyTheme } from '../../components/MyTheme';
-import { JA, EN } from '../../components/locale';
-import { MyCaptureButton } from '../../components/MyCaptureButton';
+import { Capture } from './Capture';
+import { sendMessage, useStorage } from './chrome';
 
 const Popup = () => {
   const [list, setList] = useState([]);
@@ -49,10 +41,7 @@ const Popup = () => {
     <MyTheme>
       <Paper style={{ padding: '15px', borderRadius: 0 }}>
         <ReactHotkeys keyName="shift+c" onKeyUp={() => capture(subs, iframe)}>
-          <MyCaptureButton onClick={() => capture(subs, iframe)}>
-            <JA>キャプ</JA>
-            <EN>Capture</EN>
-          </MyCaptureButton>
+          <CaptureButton onClick={() => capture(subs, iframe)}></CaptureButton>
           <span style={{ width: 10 }}>&nbsp;&nbsp;</span>
           <FormControlLabel
             label={
