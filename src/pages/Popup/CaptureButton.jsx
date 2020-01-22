@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CaptureButton = ({ onClick, children }) => {
+export const CaptureButton = ({ onClick }) => {
   const classes = useStyles();
 
   return (
