@@ -1,6 +1,6 @@
 {
   "name": "video-capture",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "A chrome extension for capture video element with Gyazo.",
   "license": "MIT",
   "repository": {
