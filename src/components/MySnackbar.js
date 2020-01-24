@@ -8,7 +8,7 @@ export const MySnackbar = ({ open, setOpen, message }) => (
     onClose={() => setOpen(false)}
     message={message}
     anchorOrigin={{
-      vertical: 'top',
+      vertical: 'bottom',
       horizontal: 'left',
     }}
   />
