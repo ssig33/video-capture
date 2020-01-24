@@ -22,14 +22,14 @@ export const Capture = ({ item }) => {
   const [open, setOpen] = useState(false);
 
   const jump = (href) => sendMessage({ type: 'JUMP', href });
-  const tweet = () => {
+  const tweet = (title) => {
     chrome.tabs.query({ url: '*://gyazo.com/*' }, (tabs) => {
       if (tabs[0]) {
         const id = tabs[0].id;
         chrome.tabs.sendMessage(id, {
           type: 'REMOTETWEET',
           imageId: gyazo.split('/')[3],
-          body: url,
+          body: title + ' ' + url,
         });
         setOpen(true);
       } else {
@@ -54,7 +54,7 @@ export const Capture = ({ item }) => {
           <Button color="primary" onClick={() => jump(gyazo)}>
             Gyazo
           </Button>
-          <Button color="secondary" onClick={() => tweet()}>
+          <Button color="secondary" onClick={() => tweet(title)}>
             Tweet
           </Button>
         </CardActions>
