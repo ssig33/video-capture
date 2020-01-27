@@ -6,6 +6,11 @@ const getId = () => {
   );
 };
 
+const getTitle = () =>
+  location.href.startsWith('https://www.youtube.com')
+    ? document.title.replace(/\(\d+?\) /, '')
+    : document.title;
+
 const subs = ({ iframe }) => {
   const iframeList = iframe ? iframe.split('\n') : [];
   const match = !!iframeList.filter((d) => location.href.match(d))[0];
@@ -22,9 +27,7 @@ const subs = ({ iframe }) => {
   const { x, y, width, height } = video.getBoundingClientRect();
   const time = parseInt(video.currentTime || 0);
   const id = getId();
-  const title = location.href.startsWith('https://www.youtube.com')
-    ? document.title.replace(/\(\d+?\) /, '')
-    : document.title;
+  const title = getTitle();
   const url = location.href;
 
   chrome.runtime.sendMessage({
@@ -60,7 +63,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     const dataUrl = canvas.toDataURL('image/jpeg');
     const time = parseInt(video.currentTime);
     const id = getId();
-    const title = document.title;
+    const title = getTitle();
 
     // Youtube Special Support
     if (location.href.startsWith('https://www.youtube.com/')) {
@@ -72,7 +75,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         dataUrl,
         time,
         url,
-        title: title.replace(/\(\d+?\) /, ''),
+        title,
         id,
         type: 'res',
       });
