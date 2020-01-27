@@ -65,26 +65,30 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === 'CAPTURE') {
     const video = document.querySelector('video');
     if (!video) return null;
-    const canvas = document.createElement('canvas');
-    canvas.setAttribute('width', video.videoWidth);
-    canvas.setAttribute('height', video.videoHeight);
-    canvas
-      .getContext('2d')
-      .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    const dataUrl = canvas.toDataURL('image/jpeg');
-    const time = parseInt(video.currentTime);
-    const id = getId();
-    const title = getTitle();
-    const url = getUrl();
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.setAttribute('width', video.videoWidth);
+      canvas.setAttribute('height', video.videoHeight);
+      canvas
+        .getContext('2d')
+        .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      const dataUrl = canvas.toDataURL('image/jpeg');
+      const time = parseInt(video.currentTime);
+      const id = getId();
+      const title = getTitle();
+      const url = getUrl();
 
-    chrome.runtime.sendMessage({
-      dataUrl,
-      time,
-      url,
-      title,
-      id,
-      type: 'res',
-    });
+      chrome.runtime.sendMessage({
+        dataUrl,
+        time,
+        url,
+        title,
+        id,
+        type: 'res',
+      });
+    } catch {
+      subs(msg);
+    }
   }
   if (msg.type === 'SUBS') {
     subs(msg);
