@@ -22,17 +22,23 @@ const getUrl = () => {
   }
 };
 
+const getVideoOrIframe = ({ useIframe = false }) => {
+  const video = Array.from(document.querySelectorAll('video')).sort(
+    (a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width
+  )[0];
+  if (video) return video;
+  if (useIframe)
+    return Array.from(document.querySelectorAll('iframe')).sort(
+      (a, b) =>
+        b.getBoundingClientRect().width - a.getBoundingClientRect().width
+    )[0];
+  return null;
+};
+
 const subs = ({ iframe }) => {
   const iframeList = iframe ? iframe.split('\n') : [];
   const match = !!iframeList.filter((d) => location.href.match(d))[0];
-  console.log(match);
-  const video =
-    document.querySelector('video') ||
-    (match &&
-      Array.from(document.querySelectorAll('iframe')).sort(
-        (a, b) =>
-          b.getBoundingClientRect().width - a.getBoundingClientRect().width
-      )[0]);
+  const video = getVideoOrIframe({ useIframe: iframe });
   if (!video) return null;
 
   const { x, y, width, height } = video.getBoundingClientRect();
@@ -54,6 +60,14 @@ const subs = ({ iframe }) => {
   });
 };
 
+const forceSubs = () => {
+  if (location.hostname === 'www.amazon.co.jp') return true;
+  if (location.hostname === 'www.amazon.com') return true;
+  if (location.hostname === 'www.netflix.com') return true;
+
+  return false;
+};
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === 'TWEET') {
     window.open(
@@ -63,6 +77,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     );
   }
   if (msg.type === 'CAPTURE') {
+    if (forceSubs()) return subs(msg);
     const video = document.querySelector('video');
     if (!video) return null;
     try {
