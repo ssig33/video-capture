@@ -11,7 +11,7 @@ const getTitle = () =>
     ? document.title.replace(/\(\d+?\) /, '')
     : document.title;
 
-const getUrl = () => {
+const getUrl = ({video, time}) => {
   if (location.href.startsWith('https://www.youtube.com/')) {
     const videoId = document
       .querySelector('ytd-watch-flexy')
@@ -91,7 +91,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       const time = parseInt(video.currentTime);
       const id = getId();
       const title = getTitle();
-      const url = getUrl();
+      const url = getUrl({video, time});
 
       chrome.runtime.sendMessage({
         dataUrl,
@@ -101,7 +101,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         id,
         type: 'res',
       });
-    } catch {
+    } catch(e) {
+      console.log(e);
       subs(msg);
     }
   }
