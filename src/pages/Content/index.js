@@ -11,7 +11,7 @@ const getTitle = () =>
     ? document.title.replace(/\(\d+?\) /, '')
     : document.title;
 
-const getUrl = ({video, time}) => {
+const getUrl = ({ video, time }) => {
   if (location.href.startsWith('https://www.youtube.com/')) {
     const videoId = document
       .querySelector('ytd-watch-flexy')
@@ -35,6 +35,23 @@ const getVideoOrIframe = ({ useIframe = false }) => {
   return null;
 };
 
+const getPublish = () => {
+  if (location.hostname === 'www.amazon.co.jp') return true;
+  if (location.hostname === 'www.amazon.com') return true;
+  if (location.hostname === 'www.netflix.com') return true;
+  if (location.href.startsWith('https://www.youtube.com/')) {
+    const videoIsSecret = document.querySelector(
+      'ytd-badge-supported-renderer'
+    );
+    if (videoIsSecret === null) {
+      return false;
+    } else {
+      return videoIsSecret.hasAttribute('hidden');
+    }
+  }
+  return false;
+};
+
 const subs = ({ iframe }) => {
   const iframeList = iframe ? iframe.split('\n') : [];
   const match = !!iframeList.filter((d) => location.href.match(d))[0];
@@ -46,6 +63,7 @@ const subs = ({ iframe }) => {
   const id = getId();
   const title = getTitle();
   const url = location.href;
+  const publish = getPublish();
 
   chrome.runtime.sendMessage({
     type: 'rect',
@@ -57,6 +75,7 @@ const subs = ({ iframe }) => {
     id,
     title,
     url,
+    publish,
   });
 };
 
@@ -91,17 +110,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       const time = parseInt(video.currentTime);
       const id = getId();
       const title = getTitle();
-      const url = getUrl({video, time});
+      const url = getUrl({ video, time });
+      const publish = getPublish();
 
       chrome.runtime.sendMessage({
+        type: 'res',
         dataUrl,
         time,
         url,
         title,
         id,
-        type: 'res',
+        publish,
       });
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       subs(msg);
     }

@@ -5,13 +5,13 @@ import { trim } from './trim';
 import { sendMessage } from '../Popup/chrome';
 
 const push = (msg) => {
-  const { dataUrl, title, url } = msg;
+  const { dataUrl, title, url, publish } = msg;
   chrome.storage.sync.get(['blacklist'], async (result) => {
     const blacklist = (result.list || '').split('\n');
     const match = !!blacklist.filter((d) => url.match(d))[0];
     const gyazoUrl = match
       ? await gyazo({ image_url: dataUrl })
-      : await gyazo({ image_url: dataUrl, title, url });
+      : await gyazo({ image_url: dataUrl, title, url, publish });
 
     const el = { ...msg, dataUrl: gyazoUrl.imageUrl, gyazo: gyazoUrl.gyazo };
     chrome.storage.local.get(['list'], (result) => {
